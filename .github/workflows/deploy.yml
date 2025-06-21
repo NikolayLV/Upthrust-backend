@@ -1,0 +1,30 @@
+name: Deploy to Production
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  deploy:
+    name: Deploy over SSH
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Connect and deploy
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            cd /var/www/Upthrust-backend
+            git pull origin master
+            docker compose down
+            docker compose up -d --build
+            docker exec upthrust-app composer install --no-interaction --prefer-dist --optimize-autoloader
+            docker exec upthrust-app php artisan migrate --force
+            docker exec upthrust-app php artisan config:cache
