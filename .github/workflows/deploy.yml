@@ -23,10 +23,15 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            cd /var/www/Upthrust-backend
-            git pull origin master
-            docker compose down
-            docker compose up -d --build
-            docker exec upthrust-app composer install --no-interaction --prefer-dist --optimize-autoloader
-            docker exec upthrust-app php artisan migrate --force
-            docker exec upthrust-app php artisan config:cache
+              cd /var/www/Upthrust-backend
+              git pull origin master
+
+              docker exec upthrust-app npm install
+              docker exec upthrust-app npm run build
+
+              docker compose down
+              docker compose up -d --build
+
+              docker exec upthrust-app composer install --no-interaction --prefer-dist --optimize-autoloader
+              docker exec upthrust-app php artisan migrate --force
+              docker exec upthrust-app php artisan config:cache
