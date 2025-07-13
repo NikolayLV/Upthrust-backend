@@ -13,7 +13,6 @@
     </head>
     <body class="antialiased">
     <div class="loading_container">
-        <!-- From Uiverse.io by Admin12121 -->
         <div class="loader">
             <div class="box box0">
                 <div></div>
