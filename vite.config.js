@@ -5,12 +5,8 @@ export default defineConfig({
     plugins: [
         laravel({
             input: [
-                'resources/css/app.css',
+                'resources/css/main.css',
                 'resources/js/app.js',
-
-                // В будущем можно подключать компоненты
-                // 'resources/components/Button/button.css',
-                // 'resources/components/Button/button.js',
             ],
             refresh: true,
         }),
